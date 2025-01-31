@@ -1,6 +1,6 @@
 {
   "name": "@salazkin/signals",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Simple Signal Class and Reactive Wrapper.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

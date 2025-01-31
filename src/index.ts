@@ -104,6 +104,9 @@ export const reactive = <T extends object>(
 
   const observeHandler: ProxyHandler<any> = {
     get(target, prop, receiver) {
+      if (prop === "__proto__" || prop === "constructor" || prop === "prototype") {
+        throw new Error("Access to prototype properties is not allowed");
+      }
       const value = Reflect.get(target, prop, receiver);
       if (typeof value === "object" && value !== null) {
         return new Proxy(value, observeHandler);
@@ -111,6 +114,9 @@ export const reactive = <T extends object>(
       return value;
     },
     set(target, prop: any, value, receiver) {
+      if (prop === "__proto__" || prop === "constructor" || prop === "prototype") {
+        throw new Error("Modification of prototype properties is not allowed");
+      }
       const oldValue = target[prop];
       const result = Reflect.set(target, prop, value, receiver);
       if (oldValue !== value) {

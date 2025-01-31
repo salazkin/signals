@@ -37,12 +37,12 @@ export declare class Signal<T> {
      */
     isEmpty(): boolean;
 }
-type WatchData<T> = {
+export type WatchData<T> = {
     target: T;
     prop: keyof T;
     value: any;
 };
-type SignalSubscription<T> = {
+export type WatchSubscription<T> = {
     watch: (listener: (data: WatchData<T>) => void) => {
         unsubscribe: () => void;
     };
@@ -52,5 +52,4 @@ type SignalSubscription<T> = {
  * @param data - The object to make reactive.
  * @returns The reactive object with a `watch` method for subscribing to changes.
  */
-export declare const reactive: <T extends object>(data: T) => T & SignalSubscription<T>;
-export {};
+export declare const reactive: <T extends object>(data: T) => T & WatchSubscription<T>;

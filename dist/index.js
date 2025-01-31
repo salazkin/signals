@@ -79,6 +79,9 @@ const reactive = (data) => {
     const signal = new Signal();
     const observeHandler = {
         get(target, prop, receiver) {
+            if (prop === "__proto__" || prop === "constructor" || prop === "prototype") {
+                throw new Error("Access to prototype properties is not allowed");
+            }
             const value = Reflect.get(target, prop, receiver);
             if (typeof value === "object" && value !== null) {
                 return new Proxy(value, observeHandler);
@@ -86,6 +89,9 @@ const reactive = (data) => {
             return value;
         },
         set(target, prop, value, receiver) {
+            if (prop === "__proto__" || prop === "constructor" || prop === "prototype") {
+                throw new Error("Modification of prototype properties is not allowed");
+            }
             const oldValue = target[prop];
             const result = Reflect.set(target, prop, value, receiver);
             if (oldValue !== value) {
