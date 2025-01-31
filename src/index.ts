@@ -87,8 +87,8 @@ export class Signal<T> {
   }
 }
 
-type WatchData<T> = { target: T; prop: keyof T; value: any };
-type SignalSubscription<T> = {
+export type WatchData<T> = { target: T; prop: keyof T; value: any };
+export type WatchSubscription<T> = {
   watch: (listener: (data: WatchData<T>) => void) => { unsubscribe: () => void };
 };
 
@@ -99,7 +99,7 @@ type SignalSubscription<T> = {
  */
 export const reactive = <T extends object>(
   data: T
-): T & SignalSubscription<T> => {
+): T & WatchSubscription<T> => {
   const signal = new Signal<WatchData<T>>();
 
   const observeHandler: ProxyHandler<any> = {
@@ -129,5 +129,5 @@ export const reactive = <T extends object>(
     };
   };
 
-  return proxy as T & SignalSubscription<T>;
+  return proxy as T & WatchSubscription<T>;
 };
